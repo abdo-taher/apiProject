@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Crm\Base\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,29 +15,29 @@ abstract class ApiRequest extends FormRequest
      */
     abstract public function authorize();
 
-    abstract  public function rules();
+    abstract public function rules();
 
     protected function failedValidation(Validator $validator)
     {
         $errors = (new ValidationException($validator))->errors();
 
-        if (!empty($errors)){
+        if (!empty($errors)) {
             $transformedErrors = [];
-            foreach ($errors as $key => $message){
-                $transformedErrors[]=[
-                  $key => $message[0]
+            foreach ($errors as $key => $message) {
+                $transformedErrors[] = [
+                    $key => $message[0]
                 ];
             }
         }
 
         throw new HttpResponseException(
-                response()->json([
-                    'status'=>'error',
-                    'error'=>$transformedErrors
+            response()->json([
+                'status' => 'error',
+                'error' => $transformedErrors
 
-                ],
-                    JsonResponse::HTTP_BAD_REQUEST
-                )
+            ],
+                JsonResponse::HTTP_BAD_REQUEST
+            )
         );
     }
 

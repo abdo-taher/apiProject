@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Crm\User\Requests;
+use Crm\Base\Requests\ApiRequest;
 
-class ProjectRequest extends ApiRequest
+
+use Illuminate\Contracts\Validation\ValidationRule;
+
+class UserRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,12 +19,13 @@ class ProjectRequest extends ApiRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'name'=>'required|min:5',
+            'email'=>'email|unique:users,email'
         ];
     }
 }

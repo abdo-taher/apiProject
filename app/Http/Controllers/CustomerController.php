@@ -2,49 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CustomerRequest;
-use App\Models\CustomerModel;
-use Symfony\Component\HttpFoundation\Response;
+use Crm\Customer\Requests\CustomerRequest;
+use Crm\Customer\Services\CustomerExportService;
+use Crm\Customer\Services\customerService;
+use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function index(){
-        $data = CustomerModel::all();
-        return $data ?? \response()->json(['status'=>'Not Found'], Response::HTTP_NOT_FOUND);
+    private customerService $customerService;
+    private CustomerExportService $customerExportService;
+
+    public function __construct(customerService $customerService ,CustomerExportService $customerExportService){
+        $this->customerService = $customerService;
+        $this->customerExportService = $customerExportService;
     }
 
-    public function show($id){
-        $data = CustomerModel::find($id);
-        return $data ?? \response()->json(['status'=>'Not Found'], Response::HTTP_NOT_FOUND);
+    public function index()
+    {
+        return $this->customerService->index();
     }
 
-    public function store(CustomerRequest $request){
-        $data = new CustomerModel();
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = bcrypt($request->password);
-        $data->phone = $request->phone;
-        $data->save();
-
-        return $data ?? \response()->json(['status'=>'Not Found'], Response::HTTP_NOT_FOUND);
+    public function show($id)
+    {
+        return $this->customerService->show((int)$id);
     }
 
-    public function update(CustomerRequest $request , $id){
-        $data =  CustomerModel::find($id);
-        if (!$data){
-            return  \response()->json(['status'=>'Not Found'], Response::HTTP_NOT_FOUND);
-        }
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = bcrypt($request->password);
-        $data->save();
+    public function store(CustomerRequest $request)
+    {
+        return $this->customerService->store($request);
+    }
+    public function export(Request $request)
+    {
 
-        return $data ?? \response()->json(['status'=>'Not Found'], Response::HTTP_NOT_FOUND);
+        return $this->customerExportService->export($request->get('format','json'));
     }
 
-    public function destery($id){
-        $data =  CustomerModel::find($id);
-        $data->delete();
-        return $data ?? \response()->json(['status'=>'Not Found'], Response::HTTP_NOT_FOUND);
+    public function update(CustomerRequest $request, $id)
+    {
+        return $this->update($request, (int)$id);
     }
+
+    public function destery($id)
+    {
+        $this->customerService->destery((int)$id);
+    }
+
 }

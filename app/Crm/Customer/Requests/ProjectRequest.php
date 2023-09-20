@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Crm\Customer\Requests;
+use Crm\Base\Requests\ApiRequest;
 
-class NoteRequest extends ApiRequest
+
+use Illuminate\Contracts\Validation\ValidationRule;
+
+class ProjectRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +19,7 @@ class NoteRequest extends ApiRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {

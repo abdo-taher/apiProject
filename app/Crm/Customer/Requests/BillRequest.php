@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Crm\Customer\Requests;
+
+use Crm\Base\Requests\ApiRequest;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 class BillRequest extends ApiRequest
 {
@@ -15,20 +18,21 @@ class BillRequest extends ApiRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'billCode'=>'required|min:4'
+            'billCode' => 'required|min:4'
         ];
     }
+
     public function messages()
     {
         return
-        [
-            'billCode.required'=>'Bill Code Required',
-            'billCode.min'=>'Bill Code Must More Than 4 Chracter ',
-        ];
+            [
+                'billCode.required' => 'Bill Code Required',
+                'billCode.min' => 'Bill Code Must More Than 4 Chracter ',
+            ];
     }
 }

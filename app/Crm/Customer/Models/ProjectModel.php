@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace Crm\Customer\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NoteModel extends Model
+class ProjectModel extends Model
 {
     use HasFactory;
-    protected $table = 'notes';
+    protected $table = 'projects';
     protected $guarded = [];
 
     public function customer(){
