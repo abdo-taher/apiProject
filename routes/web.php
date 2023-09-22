@@ -1,6 +1,9 @@
 <?php
 
+use Crm\User\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/','App\Http\Controllers\teatApiController@index');
+
+Route::group(['prefix'=>'Product','namespace'=>'App\Http\Controllers'],function (){
+   Route::resource('/','ProductController');
+   Route::get('/Git','ProductController@Git')->name('git');
 });

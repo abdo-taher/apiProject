@@ -12,9 +12,10 @@ class BillModel extends Model
     protected $guarded = [];
 
     public function customer(){
-        $this->belongsTo(\App\Models\CustomerModel::class,'customer_id');
+        $this->belongsTo(\Crm\Customer\Models\CustomerModel::class,'customer_id');
     }
     public function project(){
-        $this->belongsTo(\App\Models\ProjectModel::class,'project_id');
+        $this->belongsTo(\Crm\Customer\Models\ProjectModel::class,'project_id');
     }
+
 }

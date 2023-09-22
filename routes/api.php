@@ -12,8 +12,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::group(['middleware' => 'auth:sanctum'], function () {
 
+Route::group(['prefix' => 'Login', 'namespace' => 'App\Http\Controllers'], function () {
+    Route::post('/', 'LoginController@login')->name('loginCh');
+});
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'Customer', 'namespace' => 'App\Http\Controllers'], function () {
         Route::get('/', 'CustomerController@index')->name('customerIndex');
         Route::post('/Store', 'CustomerController@store')->name('customerStore');

@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -23,8 +27,40 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+
+        $this->reportable(function (AuthenticationException $e) {
+            return response()->json([
+               [
+                   "status"=>"error",
+                   "error"=>['generic'=>'Not Authenticated']
+               ] ,JsonResponse::HTTP_UNAUTHORIZED
+            ]);
         });
+        $this->reportable(function (Throwable $e) {
+
+            if (env('APP_ENV') === 'local'){
+                Log::error($e);
+            }
+            if (env('APP_ENV') === 'production'){
+                $this->reportable(function (Throwable $e) {
+                    if (app()->bound('sentry')) {
+                        app('sentry')->captureException($e);
+                    }
+                });
+            }
+
+//            if (App::environment(['local','staging'])){
+//                //
+//            }
+
+
+            return response()->json([
+                [
+                    "status"=>"error",
+                    "error"=>['generic'=>'Known Error']
+                ] ,JsonResponse::HTTP_UNAUTHORIZED
+            ]);
+        });
+
     }
 }

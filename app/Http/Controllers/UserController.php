@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     private UserService $userService;
-    const TOKEN_NAME = 'personal';
 
     public function __construct(UserService $userService)
     {
@@ -25,10 +24,6 @@ class UserController extends Controller
     }
     public function store(UserRequest $request)
     {
-        $user = $this->userService->store($request);
-        return response()->json([
-           'user' => $user ,
-            'token'=> $user->createToken(self::TOKEN_NAME)->plainTextToken
-        ]);
+      $this->userService->store($request);
     }
 }

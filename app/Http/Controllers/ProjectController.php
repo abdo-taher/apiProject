@@ -64,4 +64,5 @@ class ProjectController extends Controller
         $data->delete();
         return $data ?? \response()->json(['status' => 'Not Found'], Response::HTTP_NOT_FOUND);
     }
+
 }

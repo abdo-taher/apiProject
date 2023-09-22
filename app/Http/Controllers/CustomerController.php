@@ -33,7 +33,6 @@ class CustomerController extends Controller
     }
     public function export(Request $request)
     {
-
         return $this->customerExportService->export($request->get('format','json'));
     }
 
